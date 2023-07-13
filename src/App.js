@@ -8,7 +8,8 @@ import {
 
 // custom history
 import { createBrowserHistory } from "history";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/User/HomePage";
+import UserTemplate from "./templates/User/UserTemplate";
 
 export const customNavigate = createBrowserHistory();
 
@@ -17,6 +18,7 @@ const App = () => {
     <HistoryRouter history={customNavigate}>
       <Routes>
         <Route path="home" element={<HomePage />}></Route>
+        <Route path="template" element={<UserTemplate />}></Route>
       </Routes>
     </HistoryRouter>
   );
