@@ -46,11 +46,10 @@ const items = [
 
 // Hàm tùy chỉnh để bỏ dấu trong từ đi
 const removeAccents = (str) => {
-  return str
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/\s/g, "-");
+  str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  str = str.replace(/đ/g, "d").replace(/Đ/g, "D");
+  str = str.toLowerCase().replace(/\s/g, "-");
+  return str;
 };
 
 const SiderLayout = () => {
@@ -97,7 +96,10 @@ const SiderLayout = () => {
             style={item.style}
             onClick={handleMenuClick}
           >
-            <NavLink to={`/${removeAccents(item.label)}`}>
+            <NavLink
+              style={{ textDecoration: "none" }}
+              to={`/${removeAccents(item.label)}`}
+            >
               {item.icon}
               <span>{item.label}</span>
             </NavLink>

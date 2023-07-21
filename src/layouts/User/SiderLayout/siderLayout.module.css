@@ -11,8 +11,8 @@
   overflow: auto;
   height: 100vh;
   position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background-color: black;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: black;
 }

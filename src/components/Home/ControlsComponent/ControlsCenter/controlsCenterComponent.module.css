@@ -1,0 +1,10 @@
+.custom-min-height-center {
+    min-height: 60px;
+}
+
+.custom-icon-center {
+    font-size: 22px;
+    color: #ccc;
+    margin: 0 30px;
+    cursor: pointer;
+}

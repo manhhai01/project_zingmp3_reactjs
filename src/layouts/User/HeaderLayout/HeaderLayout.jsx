@@ -1,22 +1,61 @@
 import React from "react";
 import { Layout } from "antd";
+import { Col, Row } from "antd";
+import css from "./headerLayout.module.css";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { Input } from "antd";
+import { SettingOutlined } from "@ant-design/icons";
+
+const { Search } = Input;
 
 const { Header } = Layout;
 
+const onSearch = (value) => console.log(value);
+
 const HeaderLayout = () => {
   return (
-    <Header
-      style={{
-        padding: 0,
-        background: "linear-gradient(to right, #212121, #535353)",
-        minHeight: 80,
-        position: "fixed",
-        top: 0,
-        left: 200,
-        right: 0,
-        zIndex: 99,
-      }}
-    ></Header>
+    <Header className={`${css["custom-header"]}`}>
+      <div className="container-fluid">
+        <Row>
+          <Col className={`${css["custom-height"]}`} span={10}>
+            <div
+              className={`d-flex justify-content-between align-items-center ${css["custom-height"]}`}
+            >
+              <div className="d-flex">
+                <ArrowLeftOutlined className={`${css["custom-icon"]}`} />
+                <ArrowRightOutlined className={`${css["custom-icon"]}`} />
+              </div>
+              <div>
+                <Search
+                  placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát ..."
+                  bordered
+                  allowClear
+                  status="warning"
+                  onSearch={onSearch}
+                  size="large"
+                  style={{
+                    width: 500,
+                    verticalAlign: "middle",
+                  }}
+                />
+              </div>
+            </div>
+          </Col>
+          <Col className={`${css["custom-col"]}`} span={14}>
+            <div style={{height: "100%"}} className="d-flex justify-content-end align-items-center">
+              <SettingOutlined style={{fontSize: 20}} className={`${css["custom-icon"]}`} />
+              <div className={`${css["avatar"]}`}>
+                <img
+                  src="./images/default_avatar.jpg"
+                  alt="avatar"
+                  className={`${css["avatar-image"]}`}
+                />
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </Header>
   );
 };
 

@@ -1,15 +1,13 @@
 import React from "react";
-import { Layout, theme } from "antd";
+import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import SiderLayout from "../../layouts/User/SiderLayout/SiderLayout";
 import HeaderLayout from "../../layouts/User/HeaderLayout/HeaderLayout";
+import ControlsLayout from "../../layouts/User/ControlsLayout/ControlsLayout";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const UserTemplate = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
     <Layout hasSider>
@@ -19,33 +17,23 @@ const UserTemplate = () => {
         <Content
           style={{
             overflow: "initial",
-            marginLeft: 192,
+            marginLeft: 200,
             marginTop: 80,
+            backgroundColor: "#ccc"
           }}
         >
           <div
             style={{
               padding: 24,
               textAlign: "center",
-              background: colorBgContainer,
+              background: "linear-gradient(to bottom, #1e1e1e, #292929)",
               minHeight: "100vh",
             }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 99,
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+        <ControlsLayout />
       </Layout>
     </Layout>
   );
