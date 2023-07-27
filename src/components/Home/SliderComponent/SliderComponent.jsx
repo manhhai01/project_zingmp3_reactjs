@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { setSongCurrentAction } from "../../../redux/reducers/featureReducer";
-import { setIsPlaying } from "../../../redux/reducers/statusReducer";
+import { customNavigate } from "../../../App";
 
 const SliderComponent = () => {
   const { banners } = useSelector((state) => state.homeReducer);
@@ -14,7 +14,9 @@ const SliderComponent = () => {
   const handleClickBanner = (item) => {
     if (item?.type === 1) {
       dispatch(setSongCurrentAction(item));
-      dispatch(setIsPlaying(true));
+    } else if (item?.type === 4) {
+      const albumPath = item?.link?.split(".")[0];
+      customNavigate.push(albumPath);
     }
   };
 

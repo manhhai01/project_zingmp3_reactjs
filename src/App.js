@@ -16,6 +16,7 @@ import RecentPage from "./pages/User/RecentPage";
 import FavoritePage from "./pages/User/FavoritePage";
 import FavoriteSingerPage from "./pages/User/FavoriteSingerPage";
 import PlaylistPage from "./pages/User/PlaylistPage";
+import AlbumPage from "./pages/User/AlbumPage";
 
 export const customNavigate = createBrowserHistory();
 
@@ -32,6 +33,16 @@ const App = () => {
           <Route path="bai-hat-yeu-thich" element={<FavoritePage />}></Route>
           <Route path="ca-si-yeu-thich" element={<FavoriteSingerPage />}></Route>
           <Route path="danh-sach-phat" element={<PlaylistPage />}></Route>
+          <Route path="album">
+              <Route path=":title">
+                <Route path=":pid" element={<AlbumPage />}></Route>
+              </Route>
+          </Route>
+          <Route path="playlist">
+              <Route path=":title">
+                <Route path=":pid" element={<AlbumPage />}></Route>
+              </Route>
+          </Route>
           <Route path="*" element={<HomePage />}></Route>
         </Route>
       </Routes>

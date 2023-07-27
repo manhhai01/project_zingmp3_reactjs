@@ -7,6 +7,7 @@ import featureReducer from "./reducers/featureReducer";
 import { persistStore } from "redux-persist";
 import songsReducer from "./reducers/songsReducer";
 import statusReducer from "./reducers/statusReducer";
+import playListReducer from "./reducers/playListReducer";
 
 // config cho tat ca cac reducer
 const commonConfig = {
@@ -26,6 +27,7 @@ const store = configureStore({
     featureReducer: persistReducer(featureConfig, featureReducer),
     songsReducer,
     statusReducer,
+    playListReducer,
   },
 });
 

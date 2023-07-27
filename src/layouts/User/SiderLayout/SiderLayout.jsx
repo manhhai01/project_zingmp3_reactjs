@@ -77,7 +77,9 @@ const SiderLayout = () => {
       className={`${css["custom-menu-border"]}`}
     >
       <div className="demo-logo-vertical" />
-      <div style={{ height: 100, margin: "0px 20px" }}>
+      <div style={{ height: 100, margin: "0px 20px" }} onClick={() => {
+        customNavigate.push("/");
+      }}>
         <img
           style={{ width: "100%", height: "100%", objectFit: "contain" }}
           src="./images/logo_zingmp3.png"

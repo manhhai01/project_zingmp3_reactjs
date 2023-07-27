@@ -3,7 +3,7 @@ import axios from "axios";
 // tạo bản sao của axios
 const http = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
-  timeout: 3000, // set thời gian chờ
+  timeout: 12000, // set thời gian chờ
 });
 
 // cấu hình cho request

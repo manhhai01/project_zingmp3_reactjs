@@ -10,16 +10,16 @@ const songsReducer = createSlice({
   name: "songsReducer",
   initialState,
   reducers: {
-    setSongCurrentDetail: (state, action) => {
+    setSongCurrentDetailAction: (state, action) => {
       state.songCurrentDetail = action.payload;
     },
-    setSourceSongCurrent: (state, action) => {
+    setSourceSongCurrentAction: (state, action) => {
       state.sourceSongCurrent = action.payload;
     },
   },
 });
 
-export const { setSongCurrentDetail, setSourceSongCurrent } =
+export const { setSongCurrentDetailAction, setSourceSongCurrentAction } =
   songsReducer.actions;
 
 export default songsReducer.reducer;
@@ -31,7 +31,7 @@ export const getSongCurrentDetailActionApi = (sid) => {
     const res = await http.get(`/infosong?id=${sid}`);
 
     if (res) {
-      const actionDispatch = setSongCurrentDetail(res?.data?.data);
+      const actionDispatch = setSongCurrentDetailAction(res?.data?.data);
       dispatch(actionDispatch);
     }
   };
@@ -42,7 +42,7 @@ export const getSourceSongCurrentActionApi = (sid) => {
     const res = await http.get(`/song?id=${sid}`);
 
     if (res) {
-      const actionDispatch = setSourceSongCurrent(res?.data?.data["128"]);
+      const actionDispatch = setSourceSongCurrentAction(res?.data?.data?.["128"]);
       dispatch(actionDispatch);
     }
   };

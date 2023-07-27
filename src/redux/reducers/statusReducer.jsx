@@ -8,12 +8,12 @@ const statusReducer = createSlice({
   name: "statusReducer",
   initialState,
   reducers: {
-    setIsPlaying: (state, action) => {
+    setIsPlayingAction: (state, action) => {
       state.isPlaying = action.payload;
     },
   },
 });
 
-export const { setIsPlaying } = statusReducer.actions;
+export const { setIsPlayingAction } = statusReducer.actions;
 
 export default statusReducer.reducer;
