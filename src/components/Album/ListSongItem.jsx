@@ -5,7 +5,7 @@ const ListSongItem = ({ songs, totalDuration }) => {
 
   const renderListSongItem = () => {
     return songs?.map((item, index) => {
-      return <SongItem key={index} songData={item} />;
+      return <SongItem key={index} songData={item}/>;
     });
   };
 

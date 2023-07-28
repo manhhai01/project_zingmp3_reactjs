@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getBannersActionApi } from "../../redux/reducers/homeReducer";
+import { getBannersActionApi, getPlayListsActionApi } from "../../redux/reducers/homeReducer";
 import SliderComponent from "../../components/Home/SliderComponent/SliderComponent";
+import PlayListComponent from "../../components/Home/PlayListComponent/PlayListComponent";
 
 const HomePage = () => {
 
@@ -9,6 +10,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getBannersApiFuntion();
+    getPlaylistsApiFunction();
   }, []);
 
   const getBannersApiFuntion = async () => {
@@ -16,8 +18,14 @@ const HomePage = () => {
     dispatch(actionAsync);
   };
 
+  const getPlaylistsApiFunction = async () => {
+    const actionAsync = getPlayListsActionApi();
+    dispatch(actionAsync);
+  }
+
   return <div>
     <SliderComponent />
+    <PlayListComponent />
   </div>;
 };
 

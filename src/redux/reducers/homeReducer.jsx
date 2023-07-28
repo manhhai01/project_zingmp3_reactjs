@@ -3,6 +3,7 @@ import http from "../../utils/configInterceptor";
 
 const initialState = {
   banners: [],
+  playLists: [],
 };
 
 const homeReducer = createSlice({
@@ -12,10 +13,14 @@ const homeReducer = createSlice({
     setBannersAction: (state, action) => {
       state.banners = action.payload;
     },
+
+    setPlayListsAction: (state, action) => {
+      state.playLists = action.payload;
+    }
   },
 });
 
-export const { setBannersAction } = homeReducer.actions;
+export const { setBannersAction, setPlayListsAction } = homeReducer.actions;
 
 export default homeReducer.reducer;
 
@@ -28,3 +33,11 @@ export const getBannersActionApi = () => {
     dispatch(action);
   };
 };
+
+export const getPlayListsActionApi = () => {
+  return async (dispatch) => {
+    const res = await http.get("/home");
+    const action = setPlayListsAction(res?.data?.data?.items[3]);
+    dispatch(action);
+  }
+}

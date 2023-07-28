@@ -1,18 +1,37 @@
 import moment from "moment";
 import React, { memo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSongCurrentAction } from "../../redux/reducers/featureReducer";
+import {
+  setIsAlbumNextAction,
+  setIsAlbumPrevAction,
+} from "../../redux/reducers/statusReducer";
 
-const SongItem = (songData) => {
-
+const SongItem = (songData, indexSong) => {
   const dispatch = useDispatch();
+
+  const { song } = useSelector((state) => state.playListReducer.playList);
 
   const handleClick = () => {
     dispatch(setSongCurrentAction(songData?.songData));
-  }
+    if (songData?.songData.encodeId === song?.items[0].encodeId) {
+      dispatch(setIsAlbumPrevAction(false));
+    } else {
+      dispatch(setIsAlbumPrevAction(true));
+    }
+
+    if (
+      songData?.songData.encodeId ===
+      song?.items[song?.items.length - 1].encodeId
+    ) {
+      dispatch(setIsAlbumNextAction(false));
+    } else {
+      dispatch(setIsAlbumNextAction(true));
+    }
+  };
 
   return (
-    <tr style={{cursor: "pointer"}} onClick={handleClick}>
+    <tr style={{ cursor: "pointer" }} onClick={handleClick}>
       <td>
         <div style={{ float: "left", paddingLeft: 10 }}>
           <div className="d-flex align-items-center">

@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import css from "./controlsCenterComponent.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsPlayingAction } from "../../../../redux/reducers/statusReducer";
+import {
+  setIsAlbumNextAction,
+  setIsAlbumPrevAction,
+  setIsPlayingAction,
+  setIsRepeatAction,
+  setIsSuffleAction,
+} from "../../../../redux/reducers/statusReducer";
 import { getSourceSongCurrentActionApi } from "../../../../redux/reducers/songsReducer";
 import moment from "moment";
 import { Slider } from "antd";
+import { setSongCurrentAction } from "../../../../redux/reducers/featureReducer";
 
 const ControlsCenterComponent = () => {
   const audioElement = useRef(new Audio());
@@ -16,6 +23,16 @@ const ControlsCenterComponent = () => {
   const { sourceSongCurrent } = useSelector((state) => state.songsReducer);
 
   const { songCurrentDetail } = useSelector((state) => state.songsReducer);
+
+  const { isAlbumNext, isAlbumPrev } = useSelector(
+    (state) => state.statusReducer
+  );
+
+  const { song } = useSelector((state) => state.playListReducer.playList);
+
+  const { isSuffle } = useSelector((state) => state.statusReducer);
+
+  const { isRepeat } = useSelector((state) => state.statusReducer);
 
   const [currentSeconds, setCurrentSeconds] = useState(0);
 
@@ -41,6 +58,25 @@ const ControlsCenterComponent = () => {
       audioElement.current.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, []);
+
+  useEffect(() => {
+    audioElement.current.addEventListener("ended", handleCurrentSongEnded);
+    return () => {
+      audioElement.current.removeEventListener("ended", handleCurrentSongEnded);
+    };
+  }, [songCurrent, isRepeat, isSuffle]);
+
+  const handleCurrentSongEnded = () => {
+    if (isRepeat) {
+      audioElement.current.currentTime = 0;
+      audioElement.current.play();
+    } else if (isSuffle) {
+      const randomIndex = Math.floor(Math.random() * song?.items?.length);
+      dispatch(setSongCurrentAction(song?.items[randomIndex]));
+    } else {
+      dispatch(setIsPlayingAction(false));
+    }
+  };
 
   const getSourceSongCurrentFunction = async () => {
     const actionAsync = getSourceSongCurrentActionApi(songCurrent.encodeId);
@@ -70,14 +106,73 @@ const ControlsCenterComponent = () => {
 
   const onAfterChange = (value) => {};
 
+  const handleNextSong = () => {
+    if (isAlbumNext) {
+      let currentSongIndex = undefined;
+
+      if (isAlbumNext && song && song.items && songCurrent) {
+        currentSongIndex = song.items.findIndex(
+          (item) => item.encodeId === songCurrent.encodeId
+        );
+      }
+
+      if (currentSongIndex !== undefined) {
+        dispatch(setSongCurrentAction(song?.items[currentSongIndex + 1]));
+        if (currentSongIndex === song?.items?.length - 2) {
+          dispatch(setIsAlbumNextAction(false));
+        } else {
+          dispatch(setIsAlbumNextAction(true));
+          dispatch(setIsAlbumPrevAction(true));
+        }
+      }
+    }
+  };
+
+  const handlePrevSong = () => {
+    if (isAlbumPrev) {
+      let currentSongIndex = undefined;
+      if (isAlbumPrev && song && song.items && songCurrent) {
+        currentSongIndex = song.items.findIndex(
+          (item) => item.encodeId === songCurrent.encodeId
+        );
+      }
+
+      if (currentSongIndex !== undefined) {
+        dispatch(setSongCurrentAction(song?.items[currentSongIndex - 1]));
+        if (currentSongIndex === 1) {
+          dispatch(setIsAlbumPrevAction(false));
+        } else {
+          dispatch(setIsAlbumNextAction(true));
+          dispatch(setIsAlbumPrevAction(true));
+        }
+      }
+    }
+  };
+
+  const handleSuffle = () => {
+    dispatch(setIsSuffleAction(!isSuffle));
+  };
+
+  const handleRepeat = () => {
+    dispatch(setIsRepeatAction(!isRepeat));
+  };
+
   return (
     <div className={`${css["custom-min-height"]}`}>
       <div
         className={`${css["custom-min-height-center"]} d-flex justify-content-center align-items-center`}
       >
-        <i className={`${css["custom-icon-center"]} fa-solid fa-shuffle`}></i>
         <i
-          className={`${css["custom-icon-center"]} fa-solid fa-backward-step`}
+          className={`${css["custom-icon-center"]} fa-solid fa-shuffle ${
+            isSuffle ? "opacity-100" : "opacity-50"
+          }`}
+          onClick={handleSuffle}
+        ></i>
+        <i
+          className={`${css["custom-icon-center"]} fa-solid fa-backward-step ${
+            isAlbumPrev ? "opacity-100" : "opacity-50"
+          }`}
+          onClick={handlePrevSong}
         ></i>
         {isPlaying ? (
           <i
@@ -92,9 +187,17 @@ const ControlsCenterComponent = () => {
         )}
 
         <i
-          className={`${css["custom-icon-center"]} fa-solid fa-forward-step`}
+          className={`${css["custom-icon-center"]} fa-solid fa-forward-step ${
+            isAlbumNext ? "opacity-100" : "opacity-50"
+          }`}
+          onClick={handleNextSong}
         ></i>
-        <i className={`${css["custom-icon-center"]} fa-solid fa-repeat`}></i>
+        <i
+          className={`${css["custom-icon-center"]} fa-solid fa-repeat ${
+            isRepeat ? "opacity-100" : "opacity-50"
+          }`}
+          onClick={handleRepeat}
+        ></i>
       </div>
       <div
         className={`${css["custom-min-height-center"]} d-flex align-items-center justify-content-center`}
