@@ -3,6 +3,9 @@ import { useDispatch } from "react-redux";
 import { getBannersActionApi, getPlayListsActionApi } from "../../redux/reducers/homeReducer";
 import SliderComponent from "../../components/Home/SliderComponent/SliderComponent";
 import PlayListComponent from "../../components/Home/PlayListComponent/PlayListComponent";
+import NewReleaseComponent from "../../components/Home/SongComponent/NewReleaseComponent";
+import WeekChartComponent from "../../components/Home/WeekChart/WeekChartComponent";
+import FavoriteSingerComponent from "../../components/Home/FavoriteSingerComponent/FavoriteSingerComponent";
 
 const HomePage = () => {
 
@@ -23,9 +26,12 @@ const HomePage = () => {
     dispatch(actionAsync);
   }
 
-  return <div>
+  return <div style={{paddingBottom: 300}}>
     <SliderComponent />
+    <NewReleaseComponent />
     <PlayListComponent />
+    <WeekChartComponent />
+    <FavoriteSingerComponent />
   </div>;
 };
 

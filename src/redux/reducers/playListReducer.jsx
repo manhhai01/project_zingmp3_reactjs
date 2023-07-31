@@ -25,8 +25,8 @@ export const getPlayListActionApi = (plid) => {
   return async (dispatch) => {
     const res = await http.get(`/detailplaylist?id=${plid}`);
 
-    if(res) {
-      const actionDispatch = setPlayListAction(res?.data?.data)
+    if (res) {
+      const actionDispatch = setPlayListAction(res?.data?.data);
       dispatch(actionDispatch);
     }
   };

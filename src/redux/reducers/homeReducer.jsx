@@ -37,7 +37,7 @@ export const getBannersActionApi = () => {
 export const getPlayListsActionApi = () => {
   return async (dispatch) => {
     const res = await http.get("/home");
-    const action = setPlayListsAction(res?.data?.data?.items[3]);
+    const action = setPlayListsAction(res?.data?.data?.items);
     dispatch(action);
   }
 }

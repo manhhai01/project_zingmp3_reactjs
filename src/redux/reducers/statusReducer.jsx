@@ -6,6 +6,8 @@ const initialState = {
   isAlbumPrev: false,
   isSuffle: false,
   isRepeat: false,
+  isVolume: true,
+  valueVolume: 70,
 };
 
 const statusReducer = createSlice({
@@ -30,6 +32,14 @@ const statusReducer = createSlice({
     setIsRepeatAction: (state, action) => {
       state.isRepeat = action.payload;
     },
+
+    setIsVolumeAction: (state, action) => {
+      state.isVolume = action.payload;
+    },
+
+    setValueVolumeAction: (state, action) => {
+      state.valueVolume = action.payload;
+    },
   },
 });
 
@@ -39,6 +49,8 @@ export const {
   setIsAlbumPrevAction,
   setIsSuffleAction,
   setIsRepeatAction,
+  setIsVolumeAction,
+  setValueVolumeAction,
 } = statusReducer.actions;
 
 export default statusReducer.reducer;

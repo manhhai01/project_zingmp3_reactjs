@@ -10,7 +10,7 @@ const ListSongItem = ({ songs, totalDuration }) => {
   };
 
   return (
-    <div style={{maxHeight: 600, overflowY: "auto", width: "100%", boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",}}>
+    <div style={{maxHeight: 1000, overflowY: "auto", width: "100%", boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)"}}>
       <table
         style={{
           backgroundColor: "#ccc",

@@ -8,7 +8,6 @@ import ControlsLayout from "../../layouts/User/ControlsLayout/ControlsLayout";
 const { Content } = Layout;
 
 const UserTemplate = () => {
-
   return (
     <Layout hasSider>
       <SiderLayout />
@@ -19,7 +18,7 @@ const UserTemplate = () => {
             overflow: "initial",
             marginLeft: 200,
             marginTop: 80,
-            backgroundColor: "#ccc"
+            backgroundColor: "#ccc",
           }}
         >
           <div

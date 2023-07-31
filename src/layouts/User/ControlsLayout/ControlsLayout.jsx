@@ -3,6 +3,7 @@ import css from "./controlsLayout.module.css";
 import { useSelector } from "react-redux";
 import ControlsLeftComponent from "../../../components/Home/ControlsComponent/ControlsLeft/ControlsLeftComponent";
 import ControlsCenterComponent from "../../../components/Home/ControlsComponent/ControlsCenter/ControlsCenterComponent";
+import ControlsRightComponent from "../../../components/Home/ControlsComponent/RightControls/ControlsRightComponent";
 
 const ControlsLayout = () => {
   const { songCurrent } = useSelector((state) => state.featureReducer);
@@ -17,7 +18,9 @@ const ControlsLayout = () => {
           <div className="col-6">
             <ControlsCenterComponent />
           </div>
-          <div className="col-3"></div>
+          <div className="col-3">
+            <ControlsRightComponent />
+          </div>
         </div>
       </div>
     </div>

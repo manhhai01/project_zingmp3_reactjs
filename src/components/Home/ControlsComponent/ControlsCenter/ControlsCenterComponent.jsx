@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import css from "./controlsCenterComponent.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,23 +16,21 @@ import { setSongCurrentAction } from "../../../../redux/reducers/featureReducer"
 const ControlsCenterComponent = () => {
   const audioElement = useRef(new Audio());
 
-  const { isPlaying } = useSelector((state) => state.statusReducer);
+  const { isPlaying, isSuffle, isRepeat, isVolume, valueVolume } = useSelector(
+    (state) => state.statusReducer
+  );
 
   const { songCurrent } = useSelector((state) => state.featureReducer);
 
-  const { sourceSongCurrent } = useSelector((state) => state.songsReducer);
-
-  const { songCurrentDetail } = useSelector((state) => state.songsReducer);
+  const { sourceSongCurrent, songCurrentDetail } = useSelector(
+    (state) => state.songsReducer
+  );
 
   const { isAlbumNext, isAlbumPrev } = useSelector(
     (state) => state.statusReducer
   );
 
   const { song } = useSelector((state) => state.playListReducer.playList);
-
-  const { isSuffle } = useSelector((state) => state.statusReducer);
-
-  const { isRepeat } = useSelector((state) => state.statusReducer);
 
   const [currentSeconds, setCurrentSeconds] = useState(0);
 
@@ -42,15 +40,32 @@ const ControlsCenterComponent = () => {
     getSourceSongCurrentFunction();
   }, [songCurrent]);
 
+  // useEffect(() => {
+  //   if (sourceSongCurrent) {
+  //     audioElement.current.pause();
+  //     audioElement.current.src = sourceSongCurrent;
+  //     audioElement.current.load();
+  //     if (isPlaying) audioElement.current.play();
+  //   }
+  // }, [songCurrent, sourceSongCurrent]);
+
   useEffect(() => {
-    if (sourceSongCurrent) {
-      dispatch(setIsPlayingAction(true));
-      audioElement.current.pause();
-      audioElement.current.src = sourceSongCurrent;
-      audioElement.current.load();
-      if (isPlaying) audioElement.current.play();
+    const audio = audioElement.current;
+    const isAudioPlaying = !audio.paused;
+
+    if (sourceSongCurrent && audio.src !== sourceSongCurrent) {
+      audio.pause();
+      audio.src = sourceSongCurrent;
+      audio.load();
+      if (isPlaying || isAudioPlaying) {
+        audio.play();
+      }
     }
-  }, [songCurrent, sourceSongCurrent]);
+  }, [sourceSongCurrent, isPlaying]);
+
+  useEffect(() => {
+    dispatch(setIsPlayingAction(false));
+  }, []);
 
   useEffect(() => {
     audioElement.current.addEventListener("timeupdate", handleTimeUpdate);
@@ -64,7 +79,15 @@ const ControlsCenterComponent = () => {
     return () => {
       audioElement.current.removeEventListener("ended", handleCurrentSongEnded);
     };
-  }, [songCurrent, isRepeat, isSuffle]);
+  });
+
+  useEffect(() => {
+    if (isVolume) {
+      audioElement.current.volume = valueVolume / 100;
+    } else {
+      audioElement.current.volume = 0;
+    }
+  }, [valueVolume, isVolume]);
 
   const handleCurrentSongEnded = () => {
     if (isRepeat) {
@@ -73,6 +96,8 @@ const ControlsCenterComponent = () => {
     } else if (isSuffle) {
       const randomIndex = Math.floor(Math.random() * song?.items?.length);
       dispatch(setSongCurrentAction(song?.items[randomIndex]));
+    } else if(isAlbumNext) {
+      handleNextSong();
     } else {
       dispatch(setIsPlayingAction(false));
     }
@@ -83,13 +108,30 @@ const ControlsCenterComponent = () => {
     dispatch(actionAsync);
   };
 
+  // const handleTogglePlayMusic = () => {
+  //   if (isPlaying) {
+  //     audioElement.current.pause();
+  //     dispatch(setIsPlayingAction(false));
+  //   } else {
+  //     audioElement.current.play();
+  //     dispatch(setIsPlayingAction(true));
+  //   }
+  // };
+
   const handleTogglePlayMusic = () => {
     if (isPlaying) {
       audioElement.current.pause();
       dispatch(setIsPlayingAction(false));
     } else {
-      audioElement.current.play();
-      dispatch(setIsPlayingAction(true));
+      audioElement.current
+        .play()
+        .then(() => {
+          dispatch(setIsPlayingAction(true));
+        })
+        .catch((error) => {
+          // Xử lý lỗi nếu có
+          console.error("Error playing audio:", error);
+        });
     }
   };
 
@@ -219,4 +261,4 @@ const ControlsCenterComponent = () => {
   );
 };
 
-export default ControlsCenterComponent;
+export default memo(ControlsCenterComponent);

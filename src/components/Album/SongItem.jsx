@@ -5,6 +5,7 @@ import { setSongCurrentAction } from "../../redux/reducers/featureReducer";
 import {
   setIsAlbumNextAction,
   setIsAlbumPrevAction,
+  setIsPlayingAction,
 } from "../../redux/reducers/statusReducer";
 
 const SongItem = (songData, indexSong) => {
@@ -28,6 +29,8 @@ const SongItem = (songData, indexSong) => {
     } else {
       dispatch(setIsAlbumNextAction(true));
     }
+
+    dispatch(setIsPlayingAction(true));
   };
 
   return (

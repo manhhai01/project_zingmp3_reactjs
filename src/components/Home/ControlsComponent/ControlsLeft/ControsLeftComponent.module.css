@@ -4,18 +4,19 @@
     left: 0px;
     right: 0px;
     z-index: 99;
-    min-height: 100px;
+    min-height: 120px;
     background: linear-gradient(to right, #393939, #464646);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
   
   .custom-min-height {
-    min-height: 100px;
+    min-height: 120px;
   }
   
   .custom-image {
     width: 64px;
     height: 64px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4)
   }
   
   .custom-image img {

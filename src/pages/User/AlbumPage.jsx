@@ -6,12 +6,21 @@ import moment from "moment";
 import { convertToHourMinute, formatNumber } from "../../utils/formatNumber";
 import ListSongItem from "../../components/Album/ListSongItem";
 
+import css from "./AlbumPage.module.css";
+import AudioLoading from "../../components/Common/AudioLoading";
+
 const AlbumPage = () => {
   const { title, pid } = useParams();
 
   const { playList } = useSelector((state) => state.playListReducer);
 
+  const { isPlaying } = useSelector((state) => state.statusReducer);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     getPlayListActionFunction();
@@ -23,15 +32,27 @@ const AlbumPage = () => {
   };
 
   return (
-    <div className="row text-white">
+    <div style={{paddingBottom: 200}} className="row text-white">
       <div className="col-3 d-flex flex-column align-items-center">
-        <div className="" style={{ width: 300, height: 300 }}>
+        <div
+          className=""
+          style={{ width: 300, height: 300, position: "relative" }}
+        >
           <img
             style={{ borderRadius: 8, boxShadow: "0 0 20px rgba(0, 0, 0, 1)" }}
-            className="w-100 h-100"
+            className={`${
+              isPlaying ? `rounded-circle ${css["rotate-center"]}` : "rounded"
+            } w-100 h-100`}
             src={playList?.thumbnailM}
             alt=""
           />
+          <div
+            className={`${
+              isPlaying ? `rounded-circle ${css["rotate-center"]}` : "rounded"
+            } w-100 h-100 ${css["overlay"]} d-flex justify-content-center align-items-center`}
+          >
+            {isPlaying ? <AudioLoading /> : <i style={{fontSize: 40, color: "rgba(255, 255, 255, 0.4)"}} className="fa-regular fa-circle-play"></i>}
+          </div>
         </div>
         <h3
           style={{
@@ -63,10 +84,22 @@ const AlbumPage = () => {
           totalDuration={playList?.song?.totalDuration}
         />
 
-        <div className="d-flex justify-content-left align-items-center" style={{float: "left", marginTop: 20, fontSize: 14, color: "#cccc"}}>
+        <div
+          className="d-flex justify-content-left align-items-center"
+          style={{ float: "left", marginTop: 20, fontSize: 14, color: "#cccc" }}
+        >
           <span>{playList?.song?.items?.length} bài hát</span>
-          <i style={{fontSize: 5, margin: "0px 10px"}} className="fa-solid fa-circle"></i>
-          <span>{convertToHourMinute(moment.utc(playList?.song?.totalDuration * 1000).format("HH:mm:ss"))}</span>
+          <i
+            style={{ fontSize: 5, margin: "0px 10px" }}
+            className="fa-solid fa-circle"
+          ></i>
+          <span>
+            {convertToHourMinute(
+              moment
+                .utc(playList?.song?.totalDuration * 1000)
+                .format("HH:mm:ss")
+            )}
+          </span>
         </div>
       </div>
     </div>

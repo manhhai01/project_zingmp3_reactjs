@@ -17,6 +17,7 @@ import FavoritePage from "./pages/User/FavoritePage";
 import FavoriteSingerPage from "./pages/User/FavoriteSingerPage";
 import PlaylistPage from "./pages/User/PlaylistPage";
 import AlbumPage from "./pages/User/AlbumPage";
+import WeekChartPage from "./pages/User/WeekChartPage";
 
 export const customNavigate = createBrowserHistory();
 
@@ -41,6 +42,11 @@ const App = () => {
           <Route path="playlist">
               <Route path=":title">
                 <Route path=":pid" element={<AlbumPage />}></Route>
+              </Route>
+          </Route>
+          <Route path="zing-chart-tuan">
+              <Route path=":title">
+                <Route path=":zcid" element={<WeekChartPage />}></Route>
               </Route>
           </Route>
           <Route path="*" element={<HomePage />}></Route>

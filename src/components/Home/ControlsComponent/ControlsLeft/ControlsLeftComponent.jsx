@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import css from "./ControsLeftComponent.module.css";
 import { HeartOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { getSongCurrentDetailActionApi } from "../../../../redux/reducers/songsR
 const ControlsLeftComponent = () => {
   const { songCurrent } = useSelector((state) => state.featureReducer);
 
-  const {songCurrentDetail} = useSelector((state) => state.songsReducer);
+  const { songCurrentDetail } = useSelector((state) => state.songsReducer);
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,10 @@ const ControlsLeftComponent = () => {
       className={`${css["custom-min-height"]} d-flex justify-content-start align-items-center`}
     >
       <div className={`${css["custom-image"]}`}>
-        <img src={songCurrentDetail?.thumbnail} alt={songCurrentDetail?.alias} />
+        <img
+          src={songCurrentDetail?.thumbnail}
+          alt={songCurrentDetail?.alias}
+        />
       </div>
       <div className={`${css["custom-info-song"]}`}>
         <div className={`${css["custom-name-song"]}`}>
@@ -43,4 +46,4 @@ const ControlsLeftComponent = () => {
   );
 };
 
-export default ControlsLeftComponent;
+export default memo(ControlsLeftComponent);
